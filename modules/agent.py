@@ -19,12 +19,15 @@ if groq_api_key:
         max_tokens=None,
         api_key=groq_api_key
     )
-
+    max_iterations = 2  # Maximum number of iterations for the agent
     agent_executor = create_react_agent(
         model=llm,
         tools=tools,
         debug=True
         # checkpointer = InMemorySaver()  # Optional
+    )
+    agent_executor = agent_executor.with_config(
+        recursion_limit=2*max_iterations+1,
     )
 else:
     st.warning("Please enter your Groq API key in the sidebar to start using the assistant.")

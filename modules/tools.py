@@ -167,7 +167,7 @@ def get_battery_status() -> str:
     battery = psutil.sensors_battery()
     if battery is None:
         return "Battery status not available on this system."
-    # speak(f"{battery.percent}% & {'charging' if battery.power_plugged else 'not charging'}.")
+    speak(f"{battery.percent}% & {'charging' if battery.power_plugged else 'not charging'}.")
     return f"Battery is at {battery.percent}%, {'charging' if battery.power_plugged else 'not charging'}."
 
 
