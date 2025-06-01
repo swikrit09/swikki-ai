@@ -121,21 +121,21 @@ if "default_text" not in st.session_state:
 if "listening" not in st.session_state:
     st.session_state["listening"] = False
 
-# Buttons
-with st.container():
-    col1,col2= st.columns(2)
-    with col1:
-        if st.button("Speak"):
-            st.session_state["listening"] = True
-            show_gif()
-            text = listen()
-            if not text.startswith("Error:"):
-                st.session_state["default_text"] = text
-            st.session_state["listening"] = False
-            st.rerun()
-    if st.session_state.get("listening", False):
-        print("Not Listening")
-        show_gif()
+# # Buttons
+# with st.container():
+#     col1,col2= st.columns(2)
+#     with col1:
+#         if st.button("Speak"):
+#             st.session_state["listening"] = True
+#             show_gif()
+#             text = listen()
+#             if not text.startswith("Error:"):
+#                 st.session_state["default_text"] = text
+#             st.session_state["listening"] = False
+#             st.rerun()
+#     if st.session_state.get("listening", False):
+#         print("Not Listening")
+#         show_gif()
 
 col1,col2 = st.columns([4,1], gap="small", vertical_alignment="bottom")
 
