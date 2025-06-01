@@ -5,12 +5,12 @@ from modules.agent import initialize_agent
 from langchain.schema import HumanMessage, AIMessage
 from modules.tools import tools
 
-# st.set_page_config(
-#     page_title="Swikki AI - Your task Assistant",
-#     page_icon="🤖",
-#     layout="centered",
-#     initial_sidebar_state="expanded"
-# )
+st.set_page_config(
+    page_title="Swikki AI - Your task Assistant",
+    page_icon="🤖",
+    layout="centered",
+    initial_sidebar_state="expanded"
+)
 st.title("Swikki AI - Your task Assistant")
 with st.sidebar:
     st.header("About")
