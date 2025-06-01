@@ -2,7 +2,7 @@ import time
 from langchain.tools import tool
 import webbrowser
 import os
-# import pyautogui
+import pyautogui
 import wikipedia
 import pywhatkit
 import psutil
@@ -82,56 +82,56 @@ def open_website(site: str) -> None:
     speak(f"Opening in your browser.")
     webbrowser.open(f"https://{site}")
 
-# @tool
-# def increase_volume(value=5) -> None:
-#     """
-#     Increases the system volume by value or default 5 steps.
+@tool
+def increase_volume(value=5) -> None:
+    """
+    Increases the system volume by value or default 5 steps.
 
-#     Args:
-#         value (int): steps of volumen.
+    Args:
+        value (int): steps of volumen.
 
-#     Returns:
-#         None
-#     """
-#     for _ in range(value):
-#         pyautogui.press("volumeup")
-#     speak(f"Volume increased by {value} steps.")
+    Returns:
+        None
+    """
+    for _ in range(value):
+        pyautogui.press("volumeup")
+    speak(f"Volume increased by {value} steps.")
 
-# @tool
-# def decrease_volume(value=5) -> None:
-#     """
-#     Decreases the system volume by value or default 5 steps.
+@tool
+def decrease_volume(value=5) -> None:
+    """
+    Decreases the system volume by value or default 5 steps.
     
-#     Args:
-#         value (int): steps of volumen.
+    Args:
+        value (int): steps of volumen.
 
-#     Returns:
-#         None
-#     """
-#     for _ in range(value):
-#         pyautogui.press("volumedown")
-#     speak(f"Volume decreased by {value} steps.")
+    Returns:
+        None
+    """
+    for _ in range(value):
+        pyautogui.press("volumedown")
+    speak(f"Volume decreased by {value} steps.")
 
-# @tool
-# def mute_volume() -> None:
-#     """
-#     Mutes the system volume.
+@tool
+def mute_volume() -> None:
+    """
+    Mutes the system volume.
 
-#     Returns:
-#         None
-#     """
-#     pyautogui.press("volumemute")
+    Returns:
+        None
+    """
+    pyautogui.press("volumemute")
 
 
-# @tool
-# def unmute_volume() -> None:
-#     """
-#     Unmutes the system volume.
+@tool
+def unmute_volume() -> None:
+    """
+    Unmutes the system volume.
 
-#     Returns:
-#         None
-#     """
-#     pyautogui.press("volumemute")
+    Returns:
+        None
+    """
+    pyautogui.press("volumemute")
 
 
 @tool
@@ -182,21 +182,21 @@ def empty_recycle_bin() -> None:
     winshell.recycle_bin().empty(confirm=True, show_progress=True, sound=True)
     speak("Recycle bin emptied successfully!")
 
-# @tool
-# def take_screenshot() -> str:
-#     """
-#     Takes a screenshot and saves it to the 'captures' directory.
+@tool
+def take_screenshot() -> str:
+    """
+    Takes a screenshot and saves it to the 'captures' directory.
 
-#     Returns:
-#         str: File path where the screenshot was saved.
-#     """
-#     os.makedirs("captures", exist_ok=True)
-#     screenshot = pyautogui.screenshot()
-#     random_filename = f"screenshot_{int(time.time())}.png"
-#     path = f"captures/{random_filename}"
-#     screenshot.save(path)
-#     speak("Screenshot taken successfully!")
-#     return f"Screenshot taken and saved as {path}."
+    Returns:
+        str: File path where the screenshot was saved.
+    """
+    os.makedirs("captures", exist_ok=True)
+    screenshot = pyautogui.screenshot()
+    random_filename = f"screenshot_{int(time.time())}.png"
+    path = f"captures/{random_filename}"
+    screenshot.save(path)
+    speak("Screenshot taken successfully!")
+    return f"Screenshot taken and saved as {path}."
 
 
 @tool
@@ -285,15 +285,15 @@ tools = [
     open_website,
     send_email,
     run_python_script,
-    # increase_volume,
-    # decrease_volume,
-    # mute_volume,
-    # unmute_volume,
+    increase_volume,
+    decrease_volume,
+    mute_volume,
+    unmute_volume,
     shutdown_system,
     restart_system,
     get_battery_status,
     empty_recycle_bin,
-    # take_screenshot,
+    take_screenshot,
     search_wikipedia,
     play_on_youtube,
     DuckDuckGoSearchRun().as_tool()

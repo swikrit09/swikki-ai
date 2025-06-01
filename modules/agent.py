@@ -9,8 +9,7 @@ import streamlit as st
 load_dotenv()
 
 def initialize_agent():
-    groq_api_key = st.session_state.get("groq_api_key") 
-    # or os.getenv("GROQ_API_KEY")
+    groq_api_key = st.session_state.get("groq_api_key") or os.getenv("GROQ_API_KEY")
 
     if not groq_api_key:
         st.warning("Please enter your Groq API key in the sidebar to start using the assistant.")

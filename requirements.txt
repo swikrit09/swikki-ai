@@ -13,9 +13,9 @@ groq
 
 # Voice interaction
 pyttsx3
-# speechrecognition
-# pyaudio
-# pyautogui
+speechrecognition
+pyaudio
+pyautogui
 psutil
 winshell
 

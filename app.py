@@ -1,28 +1,28 @@
 import asyncio
 import streamlit as st
-# from modules.task import listen, stop_listening
+from modules.voice import listen, stop_listening
 from modules.agent import initialize_agent
 from langchain.schema import HumanMessage, AIMessage
 from modules.tools import tools
 
 st.set_page_config(
-    page_title="Swikki AI - Your task Assistant",
+    page_title="Swikki AI - Your Voice Assistant",
     page_icon="🤖",
     layout="centered",
     initial_sidebar_state="expanded"
 )
-st.title("Swikki AI - Your task Assistant")
+st.title("Swikki AI - Your Voice Assistant")
 with st.sidebar:
     st.header("About")
     st.markdown("""
-    Swikki Ai is a task assistant that can help you with various tasks. 
+    Swikki Ai is a voice assistant that can help you with various tasks. 
     You can type or speak your commands, and it will respond accordingly.
     """)
 
     st.header("How to Use")
     st.markdown("""
     1. Add your Groq API key in the input box below.
-    2. Type your command in the input box.
+    2. Click the "Speak" button to use voice input or type your command in the input box.
     3. Click the "Send" button to get a response from the assistant.
     4. You can also view the response metadata and tool calls if available.
     """)
@@ -120,21 +120,21 @@ if "default_text" not in st.session_state:
 if "listening" not in st.session_state:
     st.session_state["listening"] = False
 
-# # Buttons
-# with st.container():
-#     col1,col2= st.columns(2)
-#     with col1:
-#         if st.button("Speak"):
-#             st.session_state["listening"] = True
-#             show_gif()
-#             text = listen()
-#             if not text.startswith("Error:"):
-#                 st.session_state["default_text"] = text
-#             st.session_state["listening"] = False
-#             st.rerun()
-#     if st.session_state.get("listening", False):
-#         print("Not Listening")
-#         show_gif()
+# Buttons
+with st.container():
+    col1,col2= st.columns(2)
+    with col1:
+        if st.button("Speak"):
+            st.session_state["listening"] = True
+            show_gif()
+            text = listen()
+            if not text.startswith("Error:"):
+                st.session_state["default_text"] = text
+            st.session_state["listening"] = False
+            st.rerun()
+    if st.session_state.get("listening", False):
+        print("Not Listening")
+        show_gif()
 
 col1,col2 = st.columns([4,1], gap="small", vertical_alignment="bottom")
 
