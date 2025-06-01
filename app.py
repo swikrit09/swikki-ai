@@ -1,34 +1,33 @@
 import asyncio
 import streamlit as st
-from modules.voice import listen, stop_listening
-from modules.agent import agent_executor
+# from modules.task import listen, stop_listening
+from modules.agent import initialize_agent
 from langchain.schema import HumanMessage, AIMessage
 from modules.tools import tools
 
-st.set_page_config(
-    page_title="Swikki AI - Your Voice Assistant",
-    page_icon="🤖",
-    layout="centered",
-    initial_sidebar_state="expanded"
-)
-st.title("Swikki AI - Your Voice Assistant")
+# st.set_page_config(
+#     page_title="Swikki AI - Your task Assistant",
+#     page_icon="🤖",
+#     layout="centered",
+#     initial_sidebar_state="expanded"
+# )
+st.title("Swikki AI - Your task Assistant")
 with st.sidebar:
     st.header("About")
     st.markdown("""
-    Swikki Ai is a voice assistant that can help you with various tasks. 
+    Swikki Ai is a task assistant that can help you with various tasks. 
     You can type or speak your commands, and it will respond accordingly.
     """)
 
     st.header("How to Use")
     st.markdown("""
     1. Add your Groq API key in the input box below.
-    2. Click the "Speak" button to use voice input or type your command in the input box.
+    2. Type your command in the input box.
     3. Click the "Send" button to get a response from the assistant.
     4. You can also view the response metadata and tool calls if available.
     """)
-
-    st.text_input("Groq API Key", type="password", key="groq_api_key", help="get from https://console.groq.com/keys")
-
+    st.text_input("Groq API Key", type="password", key="groq_api_key")
+    
     st.header("Available Tools")
     for tool in tools:
         name = getattr(tool, "name", "Unknown")
@@ -144,6 +143,7 @@ with col1:
 with col2:
     if st.button("Send"):
         if command_input.strip():
+            agent_executor = initialize_agent()
             response = agent_executor.invoke({"messages": [{"role": "user", "content": command_input}]})
             st.session_state["response"] = response
             st.session_state["default_text"] = ""  # Clear after sending

@@ -8,27 +8,27 @@ import streamlit as st
 
 load_dotenv()
 
-# Read API key from environment or Streamlit session
-groq_api_key = st.session_state.get("groq_api_key") or os.getenv("GROQ_API_KEY")
+def initialize_agent():
+    groq_api_key = st.session_state.get("groq_api_key") 
+    # or os.getenv("GROQ_API_KEY")
 
-# Only initialize agent if API key is present
-if groq_api_key:
+    if not groq_api_key:
+        st.warning("Please enter your Groq API key in the sidebar to start using the assistant.")
+        return None
+
     llm = ChatGroq(
         model="llama-3.1-8b-instant",
         temperature=0,
         max_tokens=None,
         api_key=groq_api_key
     )
-    max_iterations = 2  # Maximum number of iterations for the agent
+    max_iterations = 2
     agent_executor = create_react_agent(
         model=llm,
         tools=tools,
         debug=True
-        # checkpointer = InMemorySaver()  # Optional
     )
     agent_executor = agent_executor.with_config(
-        recursion_limit=2*max_iterations+1,
+        recursion_limit=2 * max_iterations + 1
     )
-else:
-    st.warning("Please enter your Groq API key in the sidebar to start using the assistant.")
-    agent_executor = None
+    return agent_executor
