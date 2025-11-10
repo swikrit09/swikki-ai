@@ -30,4 +30,4 @@ def initialize_agent():
     agent_executor = agent_executor.with_config(
         recursion_limit=2 * max_iterations + 1
     )
-    return agent_executor
+    return agent_executor, llm

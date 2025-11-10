@@ -1,6 +1,6 @@
 import asyncio
 import streamlit as st
-from modules.voice import listen, stop_listening
+from modules.voice import listen
 from modules.agent import initialize_agent
 from langchain.schema import HumanMessage, AIMessage
 from modules.tools import tools
@@ -119,6 +119,8 @@ if "default_text" not in st.session_state:
     st.session_state["default_text"] = ""
 if "listening" not in st.session_state:
     st.session_state["listening"] = False
+if "chat_history" not in st.session_state:
+    st.session_state["chat_history"] = []
 
 # Buttons
 with st.container():
@@ -143,10 +145,36 @@ with col1:
 with col2:
     if st.button("Send"):
         if command_input.strip():
-            agent_executor = initialize_agent()
-            response = agent_executor.invoke({"messages": [{"role": "user", "content": command_input}]})
+            agent_executor,llm = initialize_agent()
+            response = {}
+            st.session_state["chat_history"].append({"role": "user", "content": command_input})
+            try: 
+                response = agent_executor.invoke({"messages": [{"role": "user", "content": command_input}]})
+            except Exception as e:
+                ans = llm.invoke('You are a helpful assistant. Please provide a answer for the query: ' + command_input)
+                response = {
+                    "messages": [
+                        AIMessage(
+                            content=ans.content.strip(),
+                            response_metadata={
+                                "model_name": llm.model_name
+                            }
+                        )
+                    ]
+                }
+                # speak(ans.content.strip())
             st.session_state["response"] = response
+            st.session_state["chat_history"].append({"role": "assistant", "content": response["messages"][-1].content})
             st.session_state["default_text"] = ""  # Clear after sending
             # st.rerun()
+
+with st.expander("Chat History", expanded=False):
+    if st.session_state["chat_history"]:
+        for msg in st.session_state["chat_history"]:
+            role = msg["role"].capitalize()
+            content = msg["content"]
+            st.markdown(f"**{role}:** {content}")
+    else:
+        st.markdown("No chat history yet.")
 # Show output
 show_response(st.session_state["response"])
